@@ -45,18 +45,43 @@ try:
 except URLError as e:
     streamlit.error(e)
 
-streamlit.stop()
+#streamlit.stop()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
-my_cur = my_cnx.cursor()
-# my_cur.execute('select current_user(), current_account(), current_region()')
-my_cur.execute('SELECT * FROM fruit_load_list')
-my_data_row = my_cur.fetchall()
-streamlit.text('The fruit load list contains:')
-streamlit.dataframe(my_data_row)
 
-fruit_choice_add = streamlit.text_input('What fruit would you like to add?')
-my_data_row.append([fruit_choice])
-streamlit.text(f'Thanks for adding {fruit_choice_add}')
+#my_cur = my_cnx.cursor()
+## my_cur.execute('select current_user(), current_account(), current_region()')
+#my_cur.execute('SELECT * FROM fruit_load_list')
+#my_data_row = my_cur.fetchall()
+#streamlit.text('The fruit load list contains:')
+#streamlit.dataframe(my_data_row)
 
-my_cur.execute('insert into fruit_load_list values("from streamlit")')
+#fruit_choice_add = streamlit.text_input('What fruit would you like to add?')
+#my_data_row.append([fruit_choice])
+#streamlit.text(f'Thanks for adding {fruit_choice_add}')
+#my_cur.execute('insert into fruit_load_list values("from streamlit")')
+
+
+def get_fruit_load_list(my_cnx):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute('select * from fruit_load_list')
+        return my_cur.fetchall()
+#
+streamlit.header('View Our Fruit List - Add Your Favorites')
+if streamlit.button('Get Fruit List'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
+    my_data_rows = get_fruit_load_list(my_cnx)
+    my_cnx.close()
+    streamlit.dataframe(my_data_rows)
+
+
+def insert_row_snowflake(new_fruit):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute(f'insert into fruit_load_list values("{new_fruit}")')
+        return f'Thanks for adding {new_fruit}'
+
+add_my_fruit = streamlit.text_input('What fruit would you like to add?')
+if streamlit.button('Add a fruit to the List'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets['snowflake'])
+    back_from_function = insert_row_snowflake(add_my_fruit)
+    my_cnx.close()
+    streamlit.text(back_from_function)
