@@ -91,3 +91,16 @@ if streamlit.button('Add a fruit to the List'):
 html_string = "<h3>this is an html string</h3>"
 
 streamlit.markdown(html_string, unsafe_allow_html=True)
+
+html_string = f'''
+    <details>
+        <summary>hello</summary>
+        <p> content paragraph </p>
+        <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+    </details>
+'''
+streamlit.markdown(html_string, unsafe_allow_html=False)
