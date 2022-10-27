@@ -103,4 +103,4 @@ html_string = f'''
         </ul>
     </details>
 '''
-streamlit.markdown(html_string, unsafe_allow_html=False)
+streamlit.markdown(html_string, unsafe_allow_html=True)
