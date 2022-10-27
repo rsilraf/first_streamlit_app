@@ -85,3 +85,9 @@ if streamlit.button('Add a fruit to the List'):
     back_from_function = insert_row_snowflake(add_my_fruit)
     my_cnx.close()
     streamlit.text(back_from_function)
+
+
+
+html_string = "<h3>this is an html string</h3>"
+
+st.markdown(html_string, unsafe_allow_html=True)
