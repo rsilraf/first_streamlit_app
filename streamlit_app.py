@@ -101,6 +101,8 @@ html_string = f'''
             <li>two</li>
             <li>three</li>
         </ul>
+        <p>Diagram</p>
+        <img src="https://kroki.io/plantuml/svg/eNpzKC5JLCopTyrm0opWzi9KzEtPjVVwSS1IzUtJzUuuVAgpSk3l0tJSCAly0wsLj3fx9I0PCPJ3CXUOiXcK9XPxceXS0tKKV0hMSbHCo8YhNS-lPKkYAIzaIhw=" />
     </details>
 '''
 streamlit.markdown(html_string, unsafe_allow_html=True)
